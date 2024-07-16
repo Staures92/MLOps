@@ -1,0 +1,29 @@
+# Data processing and machine learning
+pandas
+numpy
+scikit-learn
+
+# Data visualization
+matplotlib
+seaborn
+
+# FastAPI framework and its ASGI server uvicorn
+fastapi
+uvicorn
+# flask==2.0.1  # Uncomment if using Flask instead of FastAPI
+
+# Streamlit for building the front-end app
+streamlit
+
+# Requests library for making HTTP requests from Streamlit to your API
+requests
+
+# Pydantic for data validation with FastAPI
+pydantic
+
+# Gunicorn as a production-ready WSGI server
+gunicorn
+
+# Other utilities
+python-dotenv # for managing environment variables
+joblib # for model serialization

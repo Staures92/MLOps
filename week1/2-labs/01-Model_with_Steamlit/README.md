@@ -7,7 +7,7 @@ python -m venv lab1_env
 ```
 Secondly, we will login to the *lab1_env* environement
 ```
-source ./lab1_env/bin/activate
+.\lab1_env\Scripts\activate.bat
 ```
 ### Install prerequisite libraries
 Pip install libraries
