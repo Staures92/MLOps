@@ -3,11 +3,11 @@
 ### Create conda environment
 Firstly, we will create a conda environment called *project1_env*
 ```
-python -m venv project_env
+python -m venv project1_env
 ```
 Secondly, we will login to the *lab1_env* environement
 ```
-.\project_env\Scripts\activate.bat
+.\project1_env\Scripts\activate.bat
 ```
 ### Install prerequisite libraries
 Pip install libraries
