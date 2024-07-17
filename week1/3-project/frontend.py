@@ -33,7 +33,7 @@ def main():
     # Write a function called predict_churn that makes a POST request to the FastAPI endpoint to get the churn prediction
     def predict_churn(monthly_charges, total_charges_tenure, total_charges, internet_service, partner, multiple_lines, device_protection, senior_citizen, gender, online_backup, dependents, tech_support, online_security, phone_service, contract, tenure):
     # API endpoint
-    api_endpoint = "http://your-fastapi-endpoint/predict_churn"
+     api_endpoint = "http://your-fastapi-endpoint/predict_churn"
     
     # Request payload
     payload = {
@@ -75,4 +75,4 @@ def main():
            # Run the streamlit App
         
         if __name__ == "__main__":
-    main()
+         main()
