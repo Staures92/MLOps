@@ -61,6 +61,11 @@ if st.button("Predict"):
         st.write(f"Churn Probability: {result['churn_probability']:.2f}")
     else:
         st.write("Error:", response.status_code, response.text)
+        
+        
+           # To run the Streamlit app
+              #  streamlit run frontend.py      
+              
          
            # Deploy the Streamlit app
           # To deploy the Streamlit app, you can use various platforms like Heroku, AWS, or Streamlit Sharing.
