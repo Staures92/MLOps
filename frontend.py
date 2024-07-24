@@ -10,7 +10,6 @@ st.title("Churn Prediction App")
 st.write("""
 ### Entrez les informations du client:
 """)
-
 # Input fields for customer data
 MonthlyCharges = st.number_input("Monthly Charges", min_value=0.0, format="%.2f")
 TotalCharges_Tenure = st.number_input("Total Charges Tenure", min_value=0.0, format="%.2f")
@@ -86,6 +85,7 @@ if st.button("Predict"):
 # Log in to your Heroku account using the command: heroku login
 
 # Create a new Heroku app using the command: heroku create <app-name>(mine was megang-churn-app)
+ # enter this command: heroku    git:remote    -a staures-churn-app
 
 # Deploy your app to Heroku using the command: git push heroku master
 
