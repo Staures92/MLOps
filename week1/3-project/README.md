@@ -5,7 +5,7 @@ Firstly, we will create a conda environment called *project1_env*
 ```
 python -m venv project1_env
 ```
-Secondly, we will login to the *lab1_env* environement
+Secondly, we will login to the *project1_env* environement
 ```
 .\project1_env\Scripts\activate.bat
 ```

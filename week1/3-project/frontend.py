@@ -1,82 +1,66 @@
 import streamlit as st
 import requests
-import json
 
-# Create the Streamlit app
-def main():
-    st.title("Churn Prediction App")
-    
-    # Input form
-    monthly_charges = st.number_input("Monthly Charges:")
-    total_charges_tenure = st.number_input("Total Charges Tenure:")
-    total_charges = st.number_input("Total Charges:")
-    internet_service = st.number_input("Internet Service:")
-    partner = st.number_input("Partner:")
-    multiple_lines = st.number_input("Multiple Lines:")
-    device_protection = st.number_input("Device Protection:")
-    senior_citizen = st.number_input("Senior Citizen:")
-    gender = st.number_input("Gender:")
-    online_backup = st.number_input("Online Backup:")
-    dependents = st.number_input("Dependents:")
-    tech_support = st.number_input("Tech Support:")
-    online_security = st.number_input("Online Security:")
-    phone_service = st.number_input("Phone Service:")
-    contract = st.number_input("Contract:")
-    tenure = st.number_input("Tenure:")
-    
-    # Predict button
-    if st.button("Predict"):
-        predict_churn(monthly_charges, total_charges_tenure, total_charges, internet_service, partner, 
-                      multiple_lines, device_protection, senior_citizen, gender, online_backup, dependents, 
-                      tech_support, online_security, phone_service, contract, tenure)  # Call the predict_churn function
-        
-    # Write a function called predict_churn that makes a POST request to the FastAPI endpoint to get the churn prediction
-    def predict_churn(monthly_charges, total_charges_tenure, total_charges, internet_service, partner, multiple_lines, device_protection, senior_citizen, gender, online_backup, dependents, tech_support, online_security, phone_service, contract, tenure):
-    # API endpoint
-     api_endpoint = "http://your-fastapi-endpoint/predict_churn"
-    
-    # Request payload
-    payload = {
-        "MonthlyCharges": monthly_charges,
-        "TotalCharges_Tenure": total_charges_tenure,
-        "TotalCharges": total_charges,
-        "InternetService": internet_service,
-        "Partner": partner,
-        "MultipleLines": multiple_lines,
-        "DeviceProtection": device_protection,
-        "SeniorCitizen": senior_citizen,
+# Define the FastAPI endpoint
+url = "http://127.0.0.1:8000/predict_churn"
+
+# Streamlit app
+st.title("Churn Prediction App")
+
+st.write("""
+### Entrez les informations du client:
+""")
+# Input fields for customer data
+MonthlyCharges = st.number_input("Monthly Charges", min_value=0.0, format="%.2f")
+TotalCharges_Tenure = st.number_input("Total Charges Tenure", min_value=0.0, format="%.2f")
+TotalCharges = st.number_input("Total Charges", min_value=0.0, format="%.2f")
+InternetService = st.selectbox("Internet Service", [0, 1, 2], format_func=lambda x: ["No", "DSL", "Fiber optic"][x])
+Partner = st.selectbox("Partner", [0, 1], format_func=lambda x: ["No", "Yes"][x])
+MultipleLines = st.selectbox("Multiple Lines", [0, 1], format_func=lambda x: ["No", "Yes"][x])
+DeviceProtection = st.selectbox("Device Protection", [0, 1], format_func=lambda x: ["No", "Yes"][x])
+SeniorCitizen = st.selectbox("Senior Citizen", [0, 1], format_func=lambda x: ["No", "Yes"][x])
+gender = st.selectbox("Gender", [0, 1], format_func=lambda x: ["Female", "Male"][x])
+OnlineBackup = st.selectbox("Online Backup", [0, 1], format_func=lambda x: ["No", "Yes"][x])
+Dependents = st.selectbox("Dependents", [0, 1], format_func=lambda x: ["No", "Yes"][x])
+TechSupport = st.selectbox("Tech Support", [0, 1], format_func=lambda x: ["No", "Yes"][x])
+OnlineSecurity = st.selectbox("Online Security", [0, 1], format_func=lambda x: ["No", "Yes"][x])
+PhoneService = st.selectbox("Phone Service", [0, 1], format_func=lambda x: ["No", "Yes"][x])
+Contract = st.selectbox("Contract", [0, 1, 2], format_func=lambda x: ["Month-to-month", "One year", "Two year"][x])
+tenure = st.number_input("Tenure", min_value=0, format="%d")
+
+# When the 'Predict' button is clicked
+if st.button("Predict"):
+    # Prepare the input data
+    input_data = {
+        "MonthlyCharges": MonthlyCharges,
+        "TotalCharges_Tenure": TotalCharges_Tenure,
+        "TotalCharges": TotalCharges,
+        "InternetService": InternetService,
+        "Partner": Partner,
+        "MultipleLines": MultipleLines,
+        "DeviceProtection": DeviceProtection,
+        "SeniorCitizen": SeniorCitizen,
         "gender": gender,
-        "OnlineBackup": online_backup,
-        "Dependents": dependents,
-        "TechSupport": tech_support,
-        "OnlineSecurity": online_security,
-        "PhoneService": phone_service,
-        "Contract": contract,
+        "OnlineBackup": OnlineBackup,
+        "Dependents": Dependents,
+        "TechSupport": TechSupport,
+        "OnlineSecurity": OnlineSecurity,
+        "PhoneService": PhoneService,
+        "Contract": Contract,
         "tenure": tenure
     }
     
-    try:
-        # Make the API call
-        response = requests.post(api_endpoint, json=payload)
-        
-        # Process the response
-        if response.status_code == 200:
-            result = response.json()
-            churn_prediction = result["churn_prediction"]
-            churn_probability = result["churn_probability"]
-            
-            st.write("Churn Prediction:", churn_prediction)
-            st.write("Churn Probability:", churn_probability)
-        else:
-            st.error("Error occurred. Please try again.")
-    except requests.exceptions.RequestException as e:
-        st.error("Error occurred. Please try again.")
-        
-           # Run the streamlit App
-        
-        if __name__ == "__main__":
-         main()
-         
+    # Send a POST request to the FastAPI endpoint
+    response = requests.post(url, json=input_data)
+    
+    # Display the result
+    if response.status_code == 200:
+        result = response.json()
+        st.write("### Prediction Result")
+        st.write(f"Churn Prediction: {'Yes' if result['churn_prediction'] else 'No'}")
+        st.write(f"Churn Probability: {result['churn_probability']:.2f}")
+    else:
+        st.write("Error:", response.status_code, response.text)
          
            # Deploy the Streamlit app
           # To deploy the Streamlit app, you can use various platforms like Heroku, AWS, or Streamlit Sharing.
@@ -101,6 +85,7 @@ def main():
 # Log in to your Heroku account using the command: heroku login
 
 # Create a new Heroku app using the command: heroku create <app-name>(mine was megang-churn-app)
+ # enter this command: heroku    git:remote    -a staures-churn-app
 
 # Deploy your app to Heroku using the command: git push heroku master
 
